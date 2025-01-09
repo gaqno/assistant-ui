@@ -148,8 +148,8 @@ export type AssistantProps = {
 const CustomModelAdapter: ChatModelAdapter = {
   async run({ messages }) {
     const query = messages[messages.length - 1]?.content;
-    const appId = process.env['NEXT_PUBLIC_ASTERAI_APP_ID'] as string;
-    const queryKey = process.env['NEXT_PUBLIC_ASTERAI_PUBLIC_QUERY_KEY'] as string;
+    const appId = process.env['ASTERAI_APP_ID'] as string;
+    const queryKey = process.env['ASTERAI_PUBLIC_QUERY_KEY'] as string;
 
     const response = await fetch(`https://api.asterai.io/app/${appId}/query/sse`, {
       method: 'POST',
