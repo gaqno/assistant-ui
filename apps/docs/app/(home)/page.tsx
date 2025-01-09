@@ -23,6 +23,7 @@ import { ModalChat } from "../../components/modal/ModalChat";
 import { TESTIMONIALS } from "@/components/testimonials/testimonials";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { TestimonialContainer } from "../../components/testimonials/TestimonialContainer";
+import { AsteraiClient } from "@asterai/client";
 
 const supportedModels = [
   {
@@ -147,39 +148,22 @@ export type AssistantProps = {
 
 const CustomModelAdapter: ChatModelAdapter = {
   async run({ messages }) {
-    const query = messages[messages.length - 1]?.content;
+    const query = messages[messages.length - 1]?.content as any;
     const appId = process.env['NEXT_PUBLIC_VERCEL_ASTERAI_APP_ID'] as string;
     const queryKey = process.env['NEXT_PUBLIC_VERCEL_ASTERAI_PUBLIC_QUERY_KEY'] as string;
 
-    const response = await fetch(`https://api.asterai.io/app/${appId}/query/sse`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${queryKey}`,
-      },
-      body: JSON.stringify({ query }),
+    const client = new AsteraiClient({
+      appId,
+      queryKey,
     });
 
-    const reader = response.body?.getReader();
-    const decoder = new TextDecoder();
-    let result = '';
-    while (true) {
-      const { done, value } = await reader?.read() ?? {};
-      if (done) break;
-      const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
-      for (const line of lines) {
-        if (line.startsWith('data: llm-token: ')) {
-          result += line.replace('data: llm-token: ', '');
-        }
-      }
-    }
+    const response = await client.query({ query: query[0]?.text });
 
     return {
       content: [
         {
           type: "text",
-          text: result || "Error: No response from Asterai",
+          text: await response.text() || "Error: No response from Asterai",
         },
       ],
     };
