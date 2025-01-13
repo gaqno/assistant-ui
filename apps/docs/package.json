@@ -19,6 +19,7 @@
     "@assistant-ui/react-markdown": "workspace:*",
     "@assistant-ui/react-syntax-highlighter": "workspace:*",
     "@assistant-ui/tsconfig": "workspace:*",
+    "@asterai/client": "^0.1.6",
     "@langchain/core": "^0.3.27",
     "@langchain/langgraph-sdk": "^0.0.33",
     "@orama/tokenizers": "^3.0.4",
