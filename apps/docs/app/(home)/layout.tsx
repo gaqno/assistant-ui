@@ -13,7 +13,6 @@ export default function Layout({
   return (
     <HomeLayout {...baseOptions}>
       {children}
-      <Footer />
     </HomeLayout>
   );
 }

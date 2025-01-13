@@ -117,7 +117,7 @@ export const Shadcn = () => {
   const leftStyle = "border-r hidden md:block";
 
   return (
-    <div className="grid h-full w-full grid-flow-col grid-rows-[auto_1fr] md:grid-cols-[250px_1fr]">
+    <div className="grid h-[calc(100vh_-_90px)] w-full grid-flow-col grid-rows-[auto_1fr] md:grid-cols-[250px_1fr]">
       <div className={cn(sideStyle, leftStyle, topStyle)}>
         <TopLeft />
       </div>
@@ -127,7 +127,7 @@ export const Shadcn = () => {
       <div className={cn(sideStyle, topStyle)}>
         <Header />
       </div>
-      <div className="bg-background overflow-hidden">
+      <div className="bg-background overflow-hidden h-full">
         <Thread
           assistantMessage={{ components: { Text: MarkdownText } }}
           welcome={{
